@@ -1,0 +1,67 @@
+<!DOCTYPE HTML>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<title>Graphライブラリテスト</title>
+<style type="text/css">
+h3 {
+	padding-left: 8px;
+	border-left: 5px solid #999;
+}
+</style>
+<script type="text/javascript" src="http://www.google.com/jsapi"></script>
+<script type="text/javascript">google.load("jquery", "1.4");</script>
+<script>
+var url = './send_graph_image.php';
+// 棒グラフ・円グラフ用
+var dataObj = {
+		'とても良かったです' : 25,
+		'良かったです' : 59,
+		'普通' : 158,
+		'悪かった' : 25,
+		'とても悪かった' : 12
+};
+
+// 折れ線グラフ用
+/*
+var dataObj = {
+		'1965' : 3,
+ 		'1970' : 5,
+ 		'1975' : 36,
+ 		'1980' : 25,
+ 		'1985' : 10,
+ 		'1990' : 25,
+ 		'1995' : 59,
+ 		'2000' : 158,
+ 		'2005' : 25,
+ 		'2010' : 12
+};
+*/
+
+// ajax通信でグラフイメージ(base64エンコー)を取得する
+$.ajax({
+	url: url,
+	dataType: 'text',
+	data: dataObj,
+	success: function(data){
+		setGraphImage(data);
+	}
+});
+
+function setGraphImage(data)
+{
+	var imgTag = '<img src="data:image/jpeg;base64,' + data + '">';
+    $('#graph').html(imgTag);
+}
+</script>
+</head>
+<body>
+<h1>SimpleGraph Sandbox</h1>
+<hr>
+<h3>imgタグのsrc属性指定でのグラフ生成例</h3>
+<img src="make_graph_image.php?とても良かったです=25&良かったです=59&普通=158&悪かった=25&とても悪かった=12">
+<hr>
+<h3>ajaxでのグラフ生成例</h3>
+<div id="graph"></div>
+</body>
+</html>

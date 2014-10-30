@@ -1,0 +1,131 @@
+@CHARSET "utf-8";
+
+/*----------------------------------------------------------
+reset
+----------------------------------------------------------*/
+* {
+	margin: 0;
+	padding: 0;
+	background-color: transparent;
+	color: #000;
+	font-size: 100%;
+	font-family: Meiryo,"Hiragino Kaku Gothic Pro","MS PGothic",Osaka,sans-serif;
+}
+
+/*---------------------------------------------------------
+base setting
+----------------------------------------------------------*/
+body {
+	background-color: #FFF;
+	font-size: 85%;
+	line-height: 1.75em;
+}
+
+a:link {
+	color: #00a;
+}
+a:visited {
+	color: #066;
+}
+a:hover {
+	color: #900;
+	text-decoration: underline;
+}
+a:active {
+	color: #900;
+	text-decoration: underline;
+}
+
+img,object {
+	border: 0;
+	vertical-align: bottom;
+}
+
+/*---------------------------------------------------------
+wrapper setting
+----------------------------------------------------------*/
+div#wrapper {
+	width: 800px;
+	margin: 20px auto;
+	padding: 0px;
+	border: 1px solid #333;
+	background-color: #e6e6e6;
+	overflow: auto;
+}
+
+/*---------------------------------------------------------
+header setting
+----------------------------------------------------------*/
+header {
+	width: 800px;
+	padding: 10px 0px;
+	float: left;
+	border-bottom: 1px solid #333;
+	background-color: #fff;
+	float: left;
+	text-align: center;
+}
+
+header h1 {
+	font-size: 135%;
+}
+
+/*---------------------------------------------------------
+graph setting
+----------------------------------------------------------*/
+#graph {
+	width: 800px;
+	margin-top: 20px;
+	float: left;
+	clear: left;
+	text-align: center;
+}
+
+/*---------------------------------------------------------
+content setting
+----------------------------------------------------------*/
+div#content {
+	width: 750px;
+	padding: 25px;
+	float: left;
+}
+
+table.border {
+	width: 550px;
+	margin: 0 auto;
+	border-collapse: collapse;
+	border: 1px solid #333;
+}
+
+table.border tr th,
+table.border tr td {
+	padding: 10px;
+	border: 1px solid #333;
+}
+
+table.border tr th {
+	background-color: #666;
+	color: #fff;
+	font-weight: normal;
+}
+
+table.border tr td {
+	background-color: #fff;
+}
+
+table.border tr td:first-child {
+	text-align: center;
+}
+
+div.button {
+	width: 750px;
+	margin-top: 25px;
+	float: left;
+	text-align: center;
+}
+
+div.button input {
+	background-color: #fff;
+}
+
+
