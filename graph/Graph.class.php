@@ -2,16 +2,12 @@
 /********************************************************************
 * This file is part of SimpleGraph
 /********************************************************************
-* Graph.class
-*
-* PHP ver.5.x.x
-*
 * @package     graph
-* @subpackage  graph
-* @author	   Shigeru Kuratani <kuratani@benefiss.com>
+* @class       Graph
+* @author	   Shigeru Kuratani <kuratani_shigeru@benefiss.com>
 * @copyright   2012, Shigeru Kuratani <Kuratani@benefiss.com>
 * @license	   The BSD License
-* @version	   1.0.1
+* @version	   1.1.0
 * @link		   http://sg.benefiss.com
 * @since	   File available since Release 1.0.0
 * @disclaimer  THIS SOFTWARE IS PROVIDED BY THE FREEBSD PROJECT ``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES,INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE FREEBSD PROJECT OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
@@ -27,6 +23,7 @@ abstract class Graph
 	const MARGIN_BOTTOM    = 30;  // graph image margin bottom
 	const MARGIN_LEFT      = 10;  // graph image margin left
 	const MARGIN_RIGHT     = 10;  // graph image margin right
+	const MEMORY_COUNT     = 5;   // default memory count
 	
 	/**
 	 * image resource
@@ -93,7 +90,12 @@ abstract class Graph
 	 * @var int
 	 */
 	protected $_legendAreaWidth;
-	
+
+	/**
+	 * count of memory
+	 * @var int
+	 */
+	protected $_memoryCount;
 	
 	/**
 	 * constructor
@@ -128,6 +130,8 @@ abstract class Graph
 		$this->_textColor = imagecolorallocate($this->_im, 0, 0, 0);
 	
 		$this->_font = dirname(__FILE__) . '/font/ipagp.ttf';
+
+		$this->_memoryCount = 5; // set default memory count
 	}
 	
 	
@@ -136,7 +140,7 @@ abstract class Graph
 	 * 
 	 * @access protected
 	 */
-	protected function __destruct()
+	protected function __destrucnt()
 	{
 		imagedestroy($this->_im);
 	}
@@ -272,23 +276,6 @@ abstract class Graph
 	 */
 	abstract protected function _drawLegend();
 	
-	/**
-	 * fetch binary code of graph image
-	 * 
-	 * @access public
-	 * 
-	 * @param  void
-	 * @return binary code of image
-	 */
-	public function fetch()
-	{
-		ob_start();
-		$this->flush();
-		$graphImage = ob_get_contents();
-		ob_end_clean();
-		
-		return $graphImage;
-	}
 	
 	/**
 	 * flush image of graph
@@ -318,4 +305,38 @@ abstract class Graph
 			imagegif($this->_im);
 		}
 	}
+
+	/**
+	 * fetch binary code of graph image
+	 *
+	 * @access public
+	 *
+	 * @param  void
+	 * @return void
+	 */
+	public function fetch()
+	{
+		ob_start();
+		$this->flush();
+		$graphImage = ob_get_contents();
+		ob_end_clean();
+
+		return $graphImage;
+	}
+
+	/**
+	 * set memory count
+	 *
+	 * @access public
+	 *
+	 * @param  $memoryCount count of memory
+	 * @return void
+	 */
+	public function setMemoryCount($memoryCount = null)
+	{
+		if ($memoryCount !== null) {
+			$this->_memoryCount = $memoryCount;
+		}
+	}
+	
 }

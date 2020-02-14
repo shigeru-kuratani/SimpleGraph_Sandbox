@@ -2,21 +2,15 @@
 /********************************************************************
 * This file is part of SimpleGraph
 /********************************************************************
-* BarGraph.class
-*
-* PHP ver.5.x.x
-*
 * @package     graph
+* @class       BarGraph
 * @subpackage  bargraph
-* @author	   Shigeru Kuratani <kuratani@benefiss.com>
+* @author	   Shigeru Kuratani <kuratani_shigeru@benefiss.com>
 * @copyright   2012, Shigeru Kuratani <Kuratani@benefiss.com>
 * @license	   The BSD License
-* @version	   1.0.1
+* @version	   1.1.0
 * @link		   http://sg.benefiss.com
 * @since	   File available since Release 1.0.0
-* @disclaimer  THIS SOFTWARE IS PROVIDED BY THE FREEBSD PROJECT ``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES,INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE FREEBSD PROJECT OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*			         【邦訳】
-*			         本ソフトウェアは、著作権者およびコントリビューターによって「現状のまま」提供されており、明示黙示を問わず、商業的な使用可能性、および特定の目的に対する適合性に関する暗黙の保証も含め、またそれに限定されない、いかなる保証もありません。著作権者もコントリビューターも、事由のいかんを問わず、 損害発生の原因いかんを問わず、かつ責任の根拠が契約であるか厳格責任であるか（過失その他の）不法行為であるかを問わず、仮にそのような損害が発生する可能性を知らされていたとしても、本ソフトウェアの使用によって発生した（代替品または代用サービスの調達、使用の喪失、データの喪失、利益の喪失、業務の中断も含め、またそれに限定されない）直接損害、間接損害、偶発的な損害、特別損害、懲罰的損害、または結果損害について、一切責任を負わないものとします。
 ********************************************************************/
 
 require_once dirname(__FILE__) . '/Graph.class.php';
@@ -24,7 +18,6 @@ require_once dirname(__FILE__) . '/Graph.class.php';
 class BarGraph extends Graph
 {
 	const BAR_WIDTH    = 20; // width of graph bars(px)
-	const MEMORY_COUNT = 5;  // memory count
 		
 	/**
 	 * constructor
@@ -44,9 +37,9 @@ class BarGraph extends Graph
 	 * 
 	 * @access public
 	 */
-	public function __destruct()
+	public function __destrucnt()
 	{
-		parent::__destruct();
+		parent::__destrucnt();
 	}
 	
 	
@@ -77,7 +70,7 @@ class BarGraph extends Graph
 		
 		// calculate height
 		$legendHeight = (int)((self::CHARACTER_SIZE * 1.5) * $dataCount - (self::CHARACTER_SIZE * 0.5));
-		$height = self::MARGIN_TOP + $legendHeight + self::MARGIN_BOTTOM;
+		$height = 40 + $legendHeight + 40;
 		$height = ($height > self::MIN_GRAPH_HEIGHT) ? $height : self::MIN_GRAPH_HEIGHT;
 		
 		return array($width, $height);
@@ -98,9 +91,9 @@ class BarGraph extends Graph
 		$maxMemoryValue = ceil($this->_getMaxValue($this->_dataArray) / $this->_power(10, $maxDigit - 1))
 						  * $this->_power(10, $maxDigit - 1);
 		
-		for ($i = 0; $i < self::MEMORY_COUNT; $i++) {
-			$value = round($maxMemoryValue / (self::MEMORY_COUNT -1) * (self::MEMORY_COUNT - 1 - $i));
-			$offsetTop = floor(($this->_height - self::MARGIN_TOP - self::MARGIN_BOTTOM) / (self::MEMORY_COUNT - 1)) * $i + self::MARGIN_TOP;
+		for ($i = 0; $i < $this->_memoryCount; $i++) {
+			$value = round($maxMemoryValue / ($this->_memoryCount -1) * ($this->_memoryCount - 1 - $i));
+			$offsetTop = floor(($this->_height - self::MARGIN_TOP - self::MARGIN_BOTTOM) / ($this->_memoryCount - 1)) * $i + self::MARGIN_TOP;
 			imagettftext($this->_im, self::CHARACTER_SIZE, 0, self::MARGIN_LEFT, $offsetTop,
 						 $this->_textColor, $this->_font, (string)$value);
 		}
@@ -126,11 +119,7 @@ class BarGraph extends Graph
 		
 		$i = 0;
 		foreach ($this->_dataArray as $key => $value) {
-			if ($value == 0) {
-				$barHeight = 1;
-			} else {
-				$barHeight = round(($this->_height - self::MARGIN_TOP - self::MARGIN_BOTTOM) * $value / $maxMemoryValue);
-			}
+			$barHeight = round(($this->_height - self::MARGIN_TOP - self::MARGIN_BOTTOM) * $value / $maxMemoryValue);
 			$barY = self::MARGIN_TOP + ($this->_height - self::MARGIN_TOP - self::MARGIN_BOTTOM) - $barHeight;
 			
 			imagerectangle($this->_im, $barX, $barY, ($barX + self::BAR_WIDTH), ($this->_height - self::MARGIN_BOTTOM),
