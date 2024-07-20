@@ -21,4 +21,4 @@ Repository of SimpleGraph that is graph library.
 SimpleGraphは[BSDライセンス](https://opensource.org/license/BSD-3-Clause)に従って配布致します。
 
 ## 変更履歴
-- [changelog](changelog.md)
+- [changeLog](changeLog.md)
